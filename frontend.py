@@ -15,8 +15,10 @@ st.markdown("""
         background-color: #efeae2;
     }
     
-    /* FORÇAR A COR DO TEXTO DAS MENSAGENS PARA ESCURO */
-    .stChatMessage {
+    /* ATAQUE DIRETO AOS PARÁGRAFOS DO STREAMLIT */
+    div[data-testid="stChatMessage"] p, 
+    div[data-testid="stChatMessage"] span, 
+    div[data-testid="stChatMessage"] div {
         color: #111b21 !important; 
     }
     
