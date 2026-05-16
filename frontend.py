@@ -7,13 +7,19 @@ from google.genai import types
 # ==========================================
 st.set_page_config(page_title="WhatsApp - Lion Tech", page_icon="💬", layout="centered")
 
-# Injetar CSS para o fundo clássico do WhatsApp e ocultar menus padrão
+# Injetar CSS para o fundo clássico do WhatsApp e corrigir a cor do texto
 st.markdown("""
 <style>
     .stApp {
         background-image: url("https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png");
         background-color: #efeae2;
     }
+    
+    /* FORÇAR A COR DO TEXTO DAS MENSAGENS PARA ESCURO */
+    .stChatMessage {
+        color: #111b21 !important; 
+    }
+    
     header {visibility: hidden;}
     #MainMenu {visibility: hidden;}
 </style>
