@@ -79,19 +79,23 @@ if "client" not in st.session_state:
 # ==========================================
 for msg in st.session_state.messages:
     with st.chat_message(msg["role"]):
-        st.markdown(msg["content"])
+        #Protege o histórico de mensagens
+        st.markdown(msg["content"].replace("$", r"\$"))
 
 if prompt := st.chat_input("Mensagem"):
     
-    # 1. Mostra o utilizador
+    #Mostra o utilizador
     st.chat_message("user").markdown(prompt)
     st.session_state.messages.append({"role": "user", "content": prompt})
 
-    # 2. Chama a IA
+    #Chama a IA
     with st.chat_message("assistant"):
         with st.spinner("A escrever..."):
             resposta = st.session_state.chat_session.send_message(prompt)
-            st.markdown(resposta.text)
             
-    # 3. Guarda na memória
+            #Protege a mensagem nova que acabou de chegar
+            texto_seguro = resposta.text.replace("$", r"\$")
+            st.markdown(texto_seguro)
+            
+    #Guarda na memória
     st.session_state.messages.append({"role": "assistant", "content": resposta.text})
