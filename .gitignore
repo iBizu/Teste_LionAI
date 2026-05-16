@@ -1,0 +1,6 @@
+venv/
+__pycache__/
+.streamlit/
+comercial.db
+token.json
+credentials.json
