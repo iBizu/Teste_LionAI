@@ -39,28 +39,16 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ==========================================
-# 2. INICIALIZAÇÃO DA IA
+# 2 e 3. INICIALIZAÇÃO DA IA E MEMÓRIA
 # ==========================================
-GEMINI_KEY = "AIzaSyBo6WzcvWiNKEenELTdFOOXQtZ3r_oiZIU"
-client = genai.Client(api_key=GEMINI_KEY)
+# Lê a chave diretamente do cofre seguro do Streamlit Cloud
+GEMINI_KEY = st.secrets["GEMINI_KEY"]
 
-system_instruction = """
-És o Lion, o assistente comercial virtual da Lion Tech que atende via WhatsApp. O teu tom é educado, ágil e focado no cliente.
-Regras da conversa:
-1. Cumprimenta o utilizador de forma amigável e pergunta o seu nome e empresa.
-2. Aguarda a resposta. Depois, pergunta qual é a principal dor operacional ou problema.
-3. Aguarda a resposta. Em seguida, pergunta (com tato) o faturamento anual da empresa.
-4. Se o faturamento for menor que 100.000, encerra a conversa educadamente dizendo que as soluções são para arquiteturas complexas.
-5. Se for maior, sugere o melhor serviço (Lion Core R$2.000, Lion Agent R$3.000, ou Lion Maintenance R$500/mês). Explica brevemente o ROI.
-6. Pergunta se o cliente quer agendar uma reunião.
-IMPORTANTE: Faz apenas UMA pergunta de cada vez. Interage como mensagens curtas de WhatsApp.
-"""
-
-# ==========================================
-# 3. GESTÃO DE MEMÓRIA (Sessão do Streamlit)
-# ==========================================
-if "chat_session" not in st.session_state:
-    st.session_state.chat_session = client.chats.create(
+# Só cria a conexão uma vez e guarda-a na memória para não fechar
+if "client" not in st.session_state:
+    st.session_state.client = genai.Client(api_key=GEMINI_KEY)
+    
+    st.session_state.chat_session = st.session_state.client.chats.create(
         model="gemini-2.5-flash",
         config=types.GenerateContentConfig(
             system_instruction=system_instruction,
